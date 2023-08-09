@@ -1,0 +1,30 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "generatedoc": "apidoc -i src -o ./Docs"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@sendgrid/mail": "^7.7.0",
+    "bcrypt": "^5.1.0",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.1",
+    "mongoose": "^7.3.1",
+    "nodemailer": "^6.9.3",
+    "nodemon": "^2.0.22"
+  },
+  "apidoc": {
+    "name": "Praba Chat Application API Docs",
+    "version": "1.0.0",
+    "description": "Base URL --->  http://localhost:4500 \n",
+    "title": "Praba Chat Application API Docs"
+  }
+}

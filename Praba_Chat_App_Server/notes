@@ -1,0 +1,6 @@
+to generate automatice JWT token key
+
+command = openssl rand - base64 32
+
+Youtube LInk for SendGrid Mailer Tutorial (https://www.youtube.com/watch?v=qFDgH6dHRA4&t=81s)
+Youtube LInk for Node Mailer Tutorial (https://www.youtube.com/watch?v=jHqbm4kEVxw)
