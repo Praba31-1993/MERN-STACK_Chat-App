@@ -1,52 +1,63 @@
-import React from "react";
+import {useState} from "react";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getUsers } from "../Redux/features/GetUserSlice";
-import { useDispatch,UseSelector } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 function Register() {
-
+  const [errorMessage, setErrorMessage] = useState(null);
+  const navigate = useNavigate()
   const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
-      firstName: '',
       lastName: '',
       email: '',
       password: '',
       conform_password: ''
-
-    },
+},
     validationSchema: Yup.object({
       firstName: Yup.string()
         .max(15, 'Must be 15 characters or less')
         .required('FirstName is Required'),
       lastName: Yup.string()
-        .max(20, 'Must be 20 characters or less')
+          .max(20, 'Must be 20 characters or less')
         .required('LastName is Required'),
       email: Yup.string().email('Invalid email address').required('Email is Required'),
       password: Yup.string().required('Password is Required'),
       conform_password: Yup.string().required('Confirm Password is Required'),
-
     }),
-    onSubmit: values => {
-      dispatch(getUsers)
+    onSubmit: async (values) => {
+      try {
+        const response = await dispatch(getUsers(values));
+        console.log("response", response);
 
-      if (values) {
-        toast.success('Success Notification !', {
+        if (response.meta.requestStatus === "rejected") {
+          toast.error(response.payload, {
+            position: toast.POSITION.TOP_RIGHT
+          });
+        } else {
+          console.log("success", response.payload.message);
+          toast.success(response.payload.message, {
+            position: toast.POSITION.TOP_RIGHT
+          });
+          setTimeout((()=>{
+          navigate("/login")
+          }),5000)
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        toast.error("Internal server Error", {
           position: toast.POSITION.TOP_RIGHT
         });
       }
     },
   });
-
-  const navigate = useNavigate()
   return (
     <div className="d-flex w-50 border border-primary mx-auto mt-5 justify-content-between ">
       <div className="w-50" style={{ background: "#1BF3A6" }}>
         <ToastContainer />
-
         <form
           className="container border border-primary w-75 mt-5 mb-5 mx-auto"
           style={{ background: "white", borderRadius: "10px", height: "fit-content" }}
@@ -83,8 +94,6 @@ function Register() {
           {formik.touched.lastName && formik.errors.lastName ? (
             <div style={{ color: 'red' }}>{formik.errors.lastName}</div>
           ) : null}
-
-
           <div class="form-group">
             <input
               type="email"
@@ -98,7 +107,6 @@ function Register() {
             {formik.touched.email && formik.errors.email ? (
               <div style={{ color: 'red' }}>{formik.errors.email}</div>
             ) : null}
-
           </div>
           <div class="form-group">
             <input
@@ -147,5 +155,4 @@ function Register() {
   );
 
 }
-
 export default Register;

@@ -17,7 +17,7 @@ function Login() {
     }),
     onSubmit: values => {
       if (values) {
-        toast.success('Success Notification !', {
+        toast.success('Successfully Login', {
           position: toast.POSITION.TOP_RIGHT
         });
       }
