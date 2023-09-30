@@ -61,15 +61,14 @@ exports.RegisterUser = async (req, res) => {
 
       res.status(200).json({
         message: "User registered successfully.",
-        status: 1,
         data: [user],
       });
     } else {
-      res.status(400).json({ message: "User already exists" });
+      res.status(400).json({ message: "User already exists", data:[] });
     }
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Error registering user" });
+    res.status(500).json({ message: "Error registering user",data:[] });
   }
 };
 
@@ -214,6 +213,7 @@ exports.LogoutUser = async (req, res) => {
  */
 
 exports.GetAllUser = async (req, res) => {
+  
   try {
     const user = await UserModel.find();
 

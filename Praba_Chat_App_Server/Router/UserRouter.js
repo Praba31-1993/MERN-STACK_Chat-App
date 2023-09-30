@@ -10,7 +10,7 @@ router.get("/getalluser", GetAllUser);
 router.post("/getMail", GetMailer);
 router.post("/resetpassword", ResetPassword);
 router.post("/update", updateUser);
-router.post("/delete?:id", DeleteUser);
+router.delete("/delete?:id", DeleteUser);
 router.post("/refresh", RefreshToken);
 
 

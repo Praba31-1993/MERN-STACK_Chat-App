@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use("/doc",express.static('./Docs'))
 app.use(cookieParser());
-
+app.use(cors());
 const PORT = process.env.PORT || 5000;
 
 // Routes

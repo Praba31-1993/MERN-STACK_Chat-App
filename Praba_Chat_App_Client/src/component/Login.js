@@ -3,8 +3,12 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { LoginUsers } from "../Redux/features/LoginUserSlice";
+import { useDispatch,useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 function Login() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -15,15 +19,34 @@ function Login() {
       password: Yup.string().required('Password is Required'),
 
     }),
-    onSubmit: values => {
-      if (values) {
-        toast.success('Successfully Login', {
+    onSubmit: async (values) => {
+      try {
+        const response = await dispatch(LoginUsers(values));
+        console.log("responseLogin", response);
+
+        if (response.meta.requestStatus === "rejected") {
+          toast.error(response.payload, {
+            position: toast.POSITION.TOP_RIGHT
+          });
+        } else {
+          console.log("success", response.payload.message);
+          toast.success(response.payload.message, {
+            position: toast.POSITION.TOP_RIGHT
+          });
+          // setTimeout((()=>{
+          // // navigate("/login")
+     
+          // }),5000)
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        toast.error("Internal server Error", {
           position: toast.POSITION.TOP_RIGHT
         });
       }
     },
   });
-  const navigate = useNavigate();
+ 
   // Login page
 
   return (
