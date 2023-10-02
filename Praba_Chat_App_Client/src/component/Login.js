@@ -6,9 +6,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import { LoginUsers } from "../Redux/features/LoginUserSlice";
 import { useDispatch,useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-function Login() {
+function Login(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate()
+  const auth=props.auth;
+
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -29,14 +31,17 @@ function Login() {
             position: toast.POSITION.TOP_RIGHT
           });
         } else {
+          auth()
           console.log("success", response.payload.message);
           toast.success(response.payload.message, {
             position: toast.POSITION.TOP_RIGHT
           });
-          // setTimeout((()=>{
-          // // navigate("/login")
+          setTimeout((()=>{
+          navigate("/dashboard")
+          // navigate("/product")
+
      
-          // }),5000)
+          }),5000)
         }
       } catch (error) {
         console.error('Error:', error);
